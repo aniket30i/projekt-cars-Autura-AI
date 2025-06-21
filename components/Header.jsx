@@ -9,21 +9,14 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import { CarFront, Heart, Layout } from "lucide-react";
+import { ArrowLeft, CarFront, Heart, Layout } from "lucide-react";
 
 const Header = async ({ isAdminPage = false }) => {
   const isAdmin = false;
   return (
     <header className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
-      {/* <SignedOut>
-        <SignInButton />
-        <SignUpButton />
-      </SignedOut>
-      <SignedIn>
-        <UserButton />
-      </SignedIn> */}
       <nav className="mx-auto px-4 flex items-center justify-between">
-        <Link href={isAdminPage ? "/admin" : "/"}>
+        <Link href={isAdminPage ? "/admin" : "/"} className="flex">
           <Image
             src={"/logo.png"}
             alt="Projekt Cars"
@@ -31,33 +24,53 @@ const Header = async ({ isAdminPage = false }) => {
             height={60}
             className="h-12 w-auto object-contain"
           />
-          {isAdmin && (
-            <span className="text-xs font-extralight">Hello this is admin</span>
-          )}
+          {isAdmin && <span className="text-xs font-extralight">Admin</span>}
         </Link>
         <div className="flex items-center space-x-4">
-          <SignedIn>
-            <Link href="/saved-cars">
-              <Button>
-                <Heart size={18} />
-                <span className="hidden md:inline">Saved Cars</span>
+          {isAdmin ? (
+            <Link href="/">
+              <Button variant={"outline"} className="flex items-center gap-2">
+                <ArrowLeft size={18} />
+                <span className="hidden md:inline">Back to App</span>
               </Button>
             </Link>
-            {!isAdmin ? (
-              <Link href="/reservations">
-                <Button variant="outline">
-                  <CarFront size={18} />
-                  <span className="hidden md:inline">My Reservations</span>
+          ) : (
+            <SignedIn>
+              <Link href="/saved-cars">
+                <Button>
+                  <Heart size={18} />
+                  <span className="hidden md:inline">Saved Cars</span>
                 </Button>
               </Link>
-            ) : (
-              <Link href="/admin">
-                <Button variant="outline">
-                  <Layout size={18} />
-                  <span className="hidden md:inline">Admin Portal</span>
-                </Button>
-              </Link>
-            )}
+              {!isAdmin ? (
+                <Link href="/reservations">
+                  <Button variant="outline">
+                    <CarFront size={18} />
+                    <span className="hidden md:inline">My Reservations</span>
+                  </Button>
+                </Link>
+              ) : (
+                <Link href="/admin">
+                  <Button variant="outline">
+                    <Layout size={18} />
+                    <span className="hidden md:inline">Admin Portal</span>
+                  </Button>
+                </Link>
+              )}
+            </SignedIn>
+          )}
+          <SignedOut>
+            <SignInButton forecedRedirectUrl="/">
+              <Button variant={"outline"}>Login</Button>
+            </SignInButton>
+          </SignedOut>
+
+          <SignedIn>
+            <UserButton
+              appearance={{
+                avatorBox: "w-10 h-10",
+              }}
+            />
           </SignedIn>
         </div>
       </nav>
