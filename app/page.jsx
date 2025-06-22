@@ -24,18 +24,18 @@ export default function Home() {
         </div>
       </section>
       <section className="py-12">
-        <div>
-          <div>
-            <h2>Featured Cars</h2>
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-2xl font-bold">Featured Cars</h2>
             <Button>
               View All
               <ChevronRight className="ml-1 h-4 w-4" />
             </Button>
-            <div>
-              {featuredCars.map((car) => {
-                return <CarCard key={car.id} car={car} />;
-              })}
-            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featuredCars.map((car) => {
+              return <CarCard key={car.id} car={car} />;
+            })}
           </div>
         </div>
       </section>
