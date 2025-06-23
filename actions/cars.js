@@ -2,6 +2,7 @@ import { db } from "@/lib/prisma";
 import { createClient } from "@/lib/supabase";
 import { auth } from "@clerk/nextjs/server";
 import { GoogleGenAI } from "@google/genai";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { v4 as uuidv4 } from "uuid";
 
@@ -166,7 +167,34 @@ export async function addCar({ carData, images }) {
       imageUrls.push(publicUrl);
     }
     if (imageUrls.length === 0) throw new Error("No images uploaded");
+
+    // Add the car to the database
+    const car = await db.car.create({
+      data: {
+        id: carId, // Use the same ID we used for the folder
+        make: carData.make,
+        model: carData.model,
+        year: carData.year,
+        price: carData.price,
+        mileage: carData.mileage,
+        color: carData.color,
+        fuelType: carData.fuelType,
+        transmission: carData.transmission,
+        bodyType: carData.bodyType,
+        seats: carData.seats,
+        description: carData.description,
+        status: carData.status,
+        featured: carData.featured,
+        images: imageUrls, // Store the array of image URLs
+      },
+    });
+
+    revalidatePath("/admin/cars");
+
+    return {
+      success: true,
+    };
   } catch (error) {
-    console.log(error);
+    throw new Error("Error adding car:" + error.message);
   }
 }
