@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Plus, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import AddCarForm from "./add-car-form";
 
 const CarList = () => {
   const [search, setSearch] = useState("");
@@ -35,6 +36,7 @@ const CarList = () => {
         </form>
       </div>
       {/* Cars Table */}
+      <AddCarForm />
     </div>
   );
 };
