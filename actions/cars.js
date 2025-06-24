@@ -17,8 +17,8 @@ export async function processCarImagewithAI(file) {
     if (!process.env.GEMINI_API_KEY) {
       throw new Error("Gemini API key not found");
     }
+
     const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
     const base64Image = await fileToBase64(file);
     const imagePart = {
       inlineData: {
@@ -58,15 +58,17 @@ export async function processCarImagewithAI(file) {
       For confidence, provide a value between 0 and 1 representing how confident you are in your overall identification.
       Only respond with the JSON object, nothing else.
     `;
-    const result = await model.generateContent({
+    const result = await genAI.models.generateContent({
+      model: "gemini-1.5-flash",
       contents: [
         {
           parts: [{ text: prompt }, imagePart],
         },
       ],
     });
-    const response = await result.response;
-    const text = response.text();
+
+    const text = result.text;
+    console.log(text);
     const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
     try {
       const carDetails = JSON.parse(cleanedText);
@@ -102,6 +104,10 @@ export async function processCarImagewithAI(file) {
     }
   } catch (error) {
     console.error("Gemini API error: ", error.message);
+    return {
+      success: false,
+      data: error.message || "Unknown error",
+    };
   }
 }
 

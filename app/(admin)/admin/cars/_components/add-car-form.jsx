@@ -29,7 +29,7 @@ import { Camera, Loader2, Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import useFetch from "@/hooks/use-fetch";
-import { addCar } from "@/actions/cars";
+import { addCar, processCarImagewithAI } from "@/actions/cars";
 import { useRouter } from "next/navigation";
 const fuelTypes = ["Petrol", "Diesel", "Electric", "Hybrid", "Plug-in Hybrid"];
 const transmissions = ["Automatic", "Manual", "Semi-Automatic"];
@@ -129,6 +129,57 @@ const AddCarForm = () => {
       maxFiles: 1,
       multiple: false,
     });
+
+  const {
+    loading: processImageLoading,
+    fn: processImageFn,
+    data: processImageResult,
+    error: processImageError,
+  } = useFetch(processCarImagewithAI);
+
+  const processWithAI = async () => {
+    if (!uploadedAiImage) {
+      toast.error("Please upload an image first");
+      return;
+    }
+    await processImageFn(uploadedAiImage);
+  };
+
+  useEffect(() => {
+    if (processImageError) {
+      toast.error(processImageError.message || "Failed to upload car");
+    }
+  }, [processImageError]);
+
+  useEffect(() => {
+    if (processImageResult?.success) {
+      const carDetails = processImageResult.data;
+      //Update with AI results
+      setValue("make", carDetails.make);
+      setValue("model", carDetails.model);
+      setValue("year", carDetails.year.toString());
+      setValue("color", carDetails.color);
+      setValue("bodyType", carDetails.bodyType);
+      setValue("fuelType", carDetails.fuelType);
+      setValue("price", carDetails.price);
+      setValue("mileage", carDetails.mileage);
+      setValue("transmission", carDetails.transmission);
+      setValue("description", carDetails.description);
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setUploadedImages((prev) => [...prev, e.target.result]);
+      };
+      reader.readAsDataURL(uploadedAiImage);
+
+      toast.success("Successfully extracted car details", {
+        description: `Detected ${carDetails.year} ${carDetails.make} ${
+          carDetails.model
+        } with ${Math.round(carDetails.confidence * 100)}% confidence`,
+      });
+      setActiveTab("manual");
+    }
+  }, [processImageResult, uploadedAiImage]);
 
   // AI Image drop section
 
@@ -589,11 +640,11 @@ const AddCarForm = () => {
                           Remove
                         </Button>
                         <Button
-                          // onClick={processWithAI}
-                          // disabled={processImageLoading}
+                          onClick={processWithAI}
+                          disabled={processImageLoading}
                           size="sm"
                         >
-                          {true ? (
+                          {processImageLoading ? (
                             <>
                               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                               Processing...
