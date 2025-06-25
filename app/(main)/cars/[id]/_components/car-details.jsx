@@ -31,7 +31,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-//import EmiCalculator from "./emi-calculator";
+import EmiCalculator from "./emi-calculator";
 
 export function CarDetails({ car, testDriveInfo }) {
   const router = useRouter();
@@ -235,7 +235,7 @@ export function CarDetails({ car, testDriveInfo }) {
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Vehiql Car Loan Calculator</DialogTitle>
-                {/* <EmiCalculator price={car.price} /> */}
+                <EmiCalculator price={car.price} />
               </DialogHeader>
             </DialogContent>
           </Dialog>
