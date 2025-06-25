@@ -1,12 +1,14 @@
 "use client";
-import React, { useState } from "react";
-import { Input } from "./ui/input";
-import { Camera, Search, Upload } from "lucide-react";
-import { is } from "date-fns/locale";
-import { Button } from "./ui/button";
-import { useDropzone } from "react-dropzone";
+
+import { useState, useEffect } from "react";
+import { Search, Upload, Camera } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { useDropzone } from "react-dropzone";
 import { useRouter } from "next/navigation";
+import { processImageSearch } from "@/actions/home";
+import useFetch from "@/hooks/use-fetch";
 
 const HomeSearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -15,6 +17,14 @@ const HomeSearch = () => {
   const [searchImage, setSearchImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const router = useRouter();
+
+  // Use the useFetch hook for image processing
+  const {
+    loading: isProcessing,
+    fn: processImageFn,
+    data: processResult,
+    error: processError,
+  } = useFetch(processImageSearch);
 
   const handleTextSubmit = (e) => {
     e.preventDefault();
@@ -32,7 +42,34 @@ const HomeSearch = () => {
     }
 
     // add ai logic
+    await processImageFn(searchImage);
   };
+
+  // Handle process result and errors with useEffect
+  useEffect(() => {
+    if (processResult?.success) {
+      const params = new URLSearchParams();
+
+      // Add extracted params to the search
+      if (processResult.data.make) params.set("make", processResult.data.make);
+      if (processResult.data.bodyType)
+        params.set("bodyType", processResult.data.bodyType);
+      if (processResult.data.color)
+        params.set("color", processResult.data.color);
+
+      // Redirect to search results
+      router.push(`/cars?${params.toString()}`);
+    }
+  }, [processResult, router]);
+
+  useEffect(() => {
+    if (processError) {
+      toast.error(
+        "Failed to analyze image: " + (processError.message || "Unknown error")
+      );
+    }
+  }, [processError]);
+
   const handleTextSearch = () => {};
 
   const onDrop = (acceptedFiles) => {
@@ -144,8 +181,16 @@ const HomeSearch = () => {
             </div>
 
             {imagePreview && (
-              <Button type="submit" className="w-full" disabled={isUploading}>
-                {isUploading ? "Uploading..." : "Search with this Image"}
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={isUploading || isProcessing}
+              >
+                {isUploading
+                  ? "Uploading..."
+                  : isProcessing
+                  ? "Analyzing..."
+                  : "Search with this Image"}
               </Button>
             )}
           </form>

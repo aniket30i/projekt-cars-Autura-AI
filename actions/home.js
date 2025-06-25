@@ -111,15 +111,15 @@ export async function processImageSearch(file) {
 
     // Get response from Gemini
     const result = await genAI.models.generateContent({
-      model: "gemini-1.5",
+      model: "gemini-2.5-flash",
       contents: [
         {
-          parts: [{ text: prompt }],
-          imagePart,
+          parts: [{ text: prompt }, imagePart],
         },
       ],
     });
     const text = result.text;
+    console.log(text);
     const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
 
     // Parse the JSON response
