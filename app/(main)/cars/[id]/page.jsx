@@ -1,7 +1,8 @@
 import { getCarById } from "@/actions/car-listing";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import React from "react";
 import { CarDetails } from "./_components/car-details";
+import { auth } from "@clerk/nextjs/server";
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
@@ -25,6 +26,11 @@ export async function generateMetadata({ params }) {
   };
 }
 export default async function CarPage({ params }) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    redirect(`/sign-in?redirect_url=/cars/${params.id}`);
+  }
   const { id } = await params;
   const result = await getCarById(id);
 

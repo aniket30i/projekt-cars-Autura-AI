@@ -18,16 +18,12 @@ const Header = async ({ isAdminPage = false }) => {
   const isAdmin = user?.role === "ADMIN";
 
   return (
-    <header className="fixed top-0 w-full bg-[#141414] backdrop-blur-md z-50 border-b">
+    <header className="fixed top-0 w-full backdrop-blur-md z-50 border-b bg-gray-200/80">
       <nav className="mx-auto px-4 py-4 flex items-center justify-between">
         <Link href={isAdminPage ? "/admin" : "/"} className="flex">
-          <Image
-            src={"/projekt-cars-logo.png"}
-            alt="Projekt Cars"
-            width={200}
-            height={80}
-            className="h-12 w-auto object-contain"
-          />
+          <span className="text-2xl font-bold gradient-subtitle p-2 bg-black">
+            Projekt Autura
+          </span>
 
           {isAdminPage && (
             <span className="text-xs font-extralight">admin</span>

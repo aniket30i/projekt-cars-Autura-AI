@@ -70,7 +70,7 @@ const HomeSearch = () => {
     }
   }, [processError]);
 
-  const handleTextSearch = () => {};
+  // const handleTextSearch = () => {};
 
   const onDrop = (acceptedFiles) => {
     const file = acceptedFiles[0];
@@ -107,7 +107,7 @@ const HomeSearch = () => {
     });
   return (
     <div>
-      <form onSubmit={handleTextSearch}>
+      <form onSubmit={handleTextSubmit}>
         <div className="relative flex items-center">
           <Search className="absolute left-3 w-5 h-5" />
           <Input

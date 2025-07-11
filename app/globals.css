@@ -122,7 +122,7 @@
 }
 
 .dotted-background {
-  background-color: #16223c;
+  background-color: #000000;
   background-image: radial-gradient(
     rgba(255, 255, 255, 0.28) 1px,
     transparent 1px
@@ -132,6 +132,10 @@
 
 @layer utilities {
   .gradient-title {
-    @apply font-extrabold tracking-tighter pr-2 pb-2 text-transparent bg-clip-text bg-gradient-to-b from-yellow-400 to-black;
+    @apply font-extrabold tracking-tighter pr-2 pb-2 text-transparent bg-clip-text bg-gradient-to-b from-gray-300 to-gray-600;
+  }
+
+  .gradient-subtitle {
+    @apply font-extrabold tracking-tighter pr-2 pb-2 text-transparent bg-clip-text bg-gradient-to-b from-violet-600 to-emerald-500;
   }
 }
