@@ -3,12 +3,16 @@ import "./globals.css";
 import Header from "../components/Header.jsx";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
+import { icons } from "lucide-react";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Projekt Autura",
   description: "A Projekt cars Product",
+  icons: {
+    icon: "/diamond.png",
+  },
 };
 
 export default function RootLayout({ children }) {
