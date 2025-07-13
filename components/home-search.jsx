@@ -175,6 +175,10 @@ const HomeSearch = () => {
                     <p className="text-gray-400 text-sm">
                       Supports: JPG, PNG (max 5MB)
                     </p>
+                    <p className="text-gray-400 text-xs mt-2">
+                      **AI can make mistakes in analyzing , please use manual
+                      search if desired results are not found**
+                    </p>
                   </div>
                 </div>
               )}

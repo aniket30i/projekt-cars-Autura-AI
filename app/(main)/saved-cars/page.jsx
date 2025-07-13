@@ -4,12 +4,11 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 export const metadata = {
-  title: "Saved Cars | Vehiql",
+  title: "Saved Cars | Projekt Autura",
   description: "View your saved cars and favorites",
 };
 
 export default async function SavedCarsPage() {
-
   const { userId } = await auth();
   if (!userId) {
     redirect("/sign-in?redirect=/saved-cars");

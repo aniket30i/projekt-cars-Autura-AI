@@ -19,9 +19,16 @@ export default function RootLayout({ children }) {
           <Header />
           <main className="min-h-screen ">{children}</main>
           <Toaster richColors />
-          <footer className="bg-blue-50 py-12">
-            <div className="container mx-auto px-4 text-center text-gray-600">
-              Build with Next.js
+          <footer className="bg-black py-12">
+            <div className="container mx-auto px-4 text-center text-gray-600 ">
+              Re-imagined by{" "}
+              <a
+                href="https://github.com/aniket30i"
+                className="font-extrabold tracking-tighter pr-2 pb-2 text-transparent bg-clip-text bg-gradient-to-b from-red-600 to-amber-500"
+              >
+                Aniket Saha
+              </a>
+              with ❤
             </div>
           </footer>
         </body>

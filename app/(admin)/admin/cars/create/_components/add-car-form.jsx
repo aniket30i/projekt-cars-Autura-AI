@@ -37,7 +37,7 @@ const bodyTypes = [
   "SUV",
   "Sedan",
   "Hatchback",
-  "Convertible",
+  "Sports",
   "Coupe",
   "Wagon",
   "Pickup",

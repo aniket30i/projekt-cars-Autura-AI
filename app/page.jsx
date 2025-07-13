@@ -23,7 +23,7 @@ export default async function Home() {
         <div className="max-w-4xl mx-auto text-center">
           <div className="mb-8 ">
             <h1 className="text-5xl md:text-8xl mb-4 gradient-title">
-              Find Your Dream Car with
+              Find Your Dream Luxury Car with
               <span className="gradient-subtitle"> Autura AI</span>
             </h1>
             <p className="text-xl text-gray-500 mb-8 max-w-2xl mx-auto">
@@ -129,10 +129,12 @@ export default async function Home() {
         </div>
       </section>
       {/* Browse by Body Type */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-12 bg-gray-100">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-2xl font-bold">Browse by Body Type</h2>
+            <h2 className="text-2xl font-bold gradient-title">
+              Browse by Body Type
+            </h2>
             <Button variant="ghost" className="flex items-center" asChild>
               <Link href="/cars">
                 View All <ChevronRight className="ml-1 h-4 w-4" />
@@ -146,7 +148,7 @@ export default async function Home() {
                 href={`/cars?bodyType=${type.name}`}
                 className="relative group cursor-pointer"
               >
-                <div className="overflow-hidden rounded-lg flex justify-end h-28 mb-4 relative">
+                <div className="overflow-hidden rounded-lg flex justify-end h-36 mb-4 relative">
                   <Image
                     src={
                       type.imageUrl || `/body/${type.name.toLowerCase()}.webp`

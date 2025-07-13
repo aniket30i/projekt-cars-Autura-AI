@@ -3,7 +3,7 @@ import Dashboard from "./_components/Dashboard";
 
 export const metadata = {
   title: "Dashboard | Projekt Cars Admin",
-  description: "Admin dashboard for Vehiql car marketplace",
+  description: "Admin dashboard for Autura car marketplace",
 };
 
 export default async function AdminDashboardPage() {
